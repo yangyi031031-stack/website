@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="一个简洁的图文展示网站">
+<title>光影记录 · 图文网站</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <div class="logo">光影记录</div>
+  <nav>
+    <a href="#home">首页</a>
+    <a href="#gallery">图文</a>
+    <a href="#about">关于</a>
+    <button id="themeBtn" aria-label="切换主题">☾</button>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="hero-content">
+    <span>PHOTO · STORY</span>
+    <h1>把值得记住的瞬间<br>留在光影里</h1>
+    <p>一个简单、清爽、适合手机和 iPad 浏览的个人图文网站。</p>
+    <a class="hero-btn" href="#gallery">开始浏览</a>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <div class="section-title">
+    <div>
+      <span>MY STORIES</span>
+      <h2>精选图文</h2>
+    </div>
+    <input id="search" type="search" placeholder="搜索文章…">
+  </div>
+
+  <div class="grid" id="cards">
+    <article class="card" data-title="山川自然">
+      <img src="images/landscape.svg" alt="山川自然">
+      <div class="card-body">
+        <small>自然 · 2026</small>
+        <h3>山川自然</h3>
+        <p>远离城市的喧嚣，在山河之间寻找片刻宁静。</p>
+        <a href="#about">阅读全文 →</a>
+      </div>
+    </article>
+
+    <article class="card" data-title="城市夜景">
+      <img src="images/city.svg" alt="城市夜景">
+      <div class="card-body">
+        <small>城市 · 2026</small>
+        <h3>城市夜景</h3>
+        <p>灯火亮起的时候，城市也开始讲述属于自己的故事。</p>
+        <a href="#about">阅读全文 →</a>
+      </div>
+    </article>
+
+    <article class="card" data-title="海边日落">
+      <img src="images/sunset.svg" alt="海边日落">
+      <div class="card-body">
+        <small>旅行 · 2026</small>
+        <h3>海边日落</h3>
+        <p>风吹过海面，夕阳慢慢落下，时间仿佛也变慢了。</p>
+        <a href="#about">阅读全文 →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div>
+    <span>ABOUT</span>
+    <h2>记录生活，也记录自己。</h2>
+    <p>这里可以放你的个人介绍、摄影作品、旅行记录或博客文章。以后可以继续增加更多图文内容。</p>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 光影记录 · Powered by Cloudflare Pages</footer>
+<script src="script.js"></script>
+</body>
+</html>
