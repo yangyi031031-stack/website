@@ -1,0 +1,23 @@
+const articles = [
+{
+title:"山川自然",
+image:"images/landscape.svg",
+category:"自然",
+year:"2026",
+desc:"远离城市的喧嚣，在山河之间寻找片刻宁静。"
+},
+{
+title:"城市夜景",
+image:"images/city.svg",
+category:"城市",
+year:"2026",
+desc:"灯火亮起的时候，城市也开始讲述属于自己的故事。"
+},
+{
+title:"海边日落",
+image:"images/sunset.svg",
+category:"旅行",
+year:"2026",
+desc:"风吹过海面，夕阳慢慢落下，时间仿佛也变慢了。"
+}
+];
