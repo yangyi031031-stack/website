@@ -1,6 +1,6 @@
 const articles = [
 {
-title:"山川自然",
+title:咪咪",
 image:"images/landscape.svg",
 category:"自然",
 year:"2026",
