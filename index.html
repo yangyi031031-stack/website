@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光影记录 · 图文网站</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+<div class="logo">光影记录</div>
+<nav>
+<a href="#home">首页</a>
+<a href="#gallery">图文</a>
+<a href="#about">关于</a>
+<button id="themeBtn">☾</button>
+</nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+<div class="hero-content">
+<span>PHOTO · STORY</span>
+<h1>把值得记住的瞬间<br>留在光影里</h1>
+<p>一个简单、清爽、适合手机和 iPad 浏览的个人图文网站。</p>
+<a class="hero-btn" href="#gallery">开始浏览</a>
+</div>
+</section>
+
+<section class="section" id="gallery">
+<div class="section-title">
+<h2>精选图文</h2>
+<input id="search" type="search" placeholder="搜索文章…">
+</div>
+<div class="grid" id="cards"></div>
+</section>
+
+<section class="about" id="about">
+<h2>记录生活，也记录自己。</h2>
+<p>这里可以放个人介绍、摄影作品、旅行记录或博客文章。</p>
+</section>
+</main>
+
+<footer>© 2026 光影记录 · Powered by Cloudflare Pages</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
