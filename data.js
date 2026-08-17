@@ -1,8 +1,8 @@
 const articles = [
 {
-title:"山川自然",
-image:"images/landscape.svg",
-category:"自然",
+title:"cat",
+image:"images/1.svg",
+category:"cat",
 year:"2026",
 desc:"远离城市的喧嚣，在山河之间寻找片刻宁静。"
 },
