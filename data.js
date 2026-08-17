@@ -1,7 +1,7 @@
 const articles = [
 {
 title:"cat",
-image:"images/1.jpg",
+image:"images/1.jepg",
 category:"cat",
 year:"2026",
 desc:"远离城市的喧嚣，在山河之间寻找片刻宁静。"
