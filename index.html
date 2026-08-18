@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="苹果风格图文介绍网站，支持在线编辑文字与图片">
+  <title>Apple Style Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">Studio<span>·</span></a>
+      <div class="nav-links">
+        <a href="#hero">首页</a><a href="#gallery">图文</a><a href="#about">介绍</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeBtn" class="icon-btn" aria-label="切换主题">☼</button>
+        <button id="editBtn" class="pill-btn">编辑页面</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="hero" class="hero editable-section">
+      <div class="hero-copy">
+        <p class="eyebrow editable" data-key="hero-eyebrow">DESIGN · STORY · LIFE</p>
+        <h1 class="editable" data-key="hero-title">让每一张图片，<br><em>都有自己的故事。</em></h1>
+        <p class="lead editable" data-key="hero-desc">用极简、克制而有质感的方式，记录值得被看见的人、事与瞬间。</p>
+        <a href="#gallery" class="primary-btn">探索作品 <span>→</span></a>
+      </div>
+      <div class="hero-image-wrap">
+        <img id="heroImage" src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1400&q=85" alt="建筑">
+        <button class="image-edit-btn" data-target="heroImage">更换图片</button>
+      </div>
+    </section>
+
+    <section id="gallery" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">SELECTED STORIES</p>
+          <h2 class="editable" data-key="gallery-title">图文精选</h2>
+        </div>
+        <p class="section-note editable" data-key="gallery-note">每一次滑动，都是一次视觉停留。</p>
+      </div>
+
+      <div class="cards">
+        <article class="card large">
+          <div class="card-image">
+            <img id="img1" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&q=85" alt="空间">
+            <button class="image-edit-btn" data-target="img1">更换图片</button>
+          </div>
+          <div class="card-copy">
+            <p class="eyebrow editable" data-key="card1-tag">01 / SPACE</p>
+            <h3 class="editable" data-key="card1-title">留白，是另一种表达。</h3>
+            <p class="editable" data-key="card1-desc">好的空间不需要喧闹。光线、材质与比例，让安静本身成为设计。</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img id="img2" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85" alt="自然">
+            <button class="image-edit-btn" data-target="img2">更换图片</button>
+          </div>
+          <div class="card-copy">
+            <p class="eyebrow editable" data-key="card2-tag">02 / NATURE</p>
+            <h3 class="editable" data-key="card2-title">把时间交给风。</h3>
+            <p class="editable" data-key="card2-desc">自然从不急着证明自己，它只是在那里，等待你真正看见。</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img id="img3" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1200&q=85" alt="夜色">
+            <button class="image-edit-btn" data-target="img3">更换图片</button>
+          </div>
+          <div class="card-copy">
+            <p class="eyebrow editable" data-key="card3-tag">03 / NIGHT</p>
+            <h3 class="editable" data-key="card3-title">夜晚，也有自己的光。</h3>
+            <p class="editable" data-key="card3-desc">在城市灯火之外，寻找属于自己的安静时刻。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="statement">
+      <p class="eyebrow">ABOUT</p>
+      <h2 class="editable" data-key="about-title">好的内容，<br>不需要复杂。</h2>
+      <p class="statement-text editable" data-key="about-desc">这个模板把视觉展示、文字编辑和图片替换放进同一个页面。你可以直接在浏览器里修改内容，并把修改保存到本机。</p>
+    </section>
+  </main>
+
+  <footer><span>Studio</span><span>Made for visual stories.</span></footer>
+
+  <div id="editorBar" class="editor-bar">
+    <div>
+      <strong>编辑模式</strong>
+      <span>点击文字直接修改，点击图片上的“更换图片”上传新图片。</span>
+    </div>
+    <div class="editor-actions">
+      <button id="resetBtn">恢复默认</button>
+      <button id="saveBtn" class="save-btn">保存修改</button>
+      <button id="closeEditor">完成</button>
+    </div>
+  </div>
+
+  <input id="fileInput" type="file" accept="image/*" hidden>
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
