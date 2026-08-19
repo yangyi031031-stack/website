@@ -1,31 +1,134 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Apple Studio 后台</title>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>
+后台
+</title>
+
+
 <link rel="stylesheet" href="admin.css">
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 </head>
+
+
 <body>
-<div class="admin-box">
-<h1> Apple Studio</h1>
-<p class="subtitle">网站图片管理后台</p>
-<div id="loginBox">
-<input id="email" type="email" placeholder="管理员邮箱">
-<input id="password" type="password" placeholder="后台密码">
-<button onclick="login()">登录后台</button>
+
+
+<div class="box">
+
+
+<h1>
+后台
+</h1>
+
+
+<div id="login">
+
+
+<input id="email"
+placeholder="管理员邮箱">
+
+
+<input id="password"
+type="password"
+placeholder="密码">
+
+
+<button onclick="login()">
+登录
+</button>
+
+
 </div>
-<div id="panel" style="display:none;">
-<h2>上传作品</h2>
-<input id="title" placeholder="图片标题">
-<textarea id="description" placeholder="图片描述"></textarea>
-<input id="image" type="file" accept="image/*">
-<button onclick="uploadImage()">上传图片</button>
-<button class="logout" onclick="logout()">退出登录</button>
-<p id="message"></p>
+
+
+
+<div id="cms"
+style="display:none;">
+
+
+<h2>
+上传作品
+</h2>
+
+
+<input id="file"
+type="file">
+
+
+<input id="title"
+placeholder="图片标题">
+
+
+<textarea id="desc"
+placeholder="图片描述">
+</textarea>
+
+
+<button onclick="upload()">
+上传
+</button>
+
+
+
+<hr>
+
+
+
+<h2>
+作品管理
+</h2>
+
+
+<div id="list">
+
 </div>
+
+
+
+<hr>
+
+
+<h2>
+网站文字设置
+</h2>
+
+
+<input id="heroTitle"
+placeholder="首页标题">
+
+
+<textarea id="heroContent"
+placeholder="首页介绍">
+</textarea>
+
+
+<button onclick="saveContent()">
+保存首页文字
+</button>
+
+
 </div>
+
+
+</div>
+
+
+
 <script src="admin.js"></script>
+
 </body>
+
+
 </html>
