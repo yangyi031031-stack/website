@@ -2,160 +2,149 @@
 <html lang="zh-CN">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Yisauce</title>
+
+<title>
+Apple Studio
+</title>
+
+
+<meta name="description"
+content="Apple Studio 图文展示网站">
+
+
+<!-- Supabase -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <link rel="stylesheet" href="style.css">
 
+
 </head>
+
 
 
 <body>
 
 
-<header>
+<!-- 顶部导航 -->
+
+<header class="header">
 
 <div class="logo">
-🐑
+
+Yisauce
+
 </div>
 
 
 <nav>
-<a href="#home">首页</a>
-<a href="#gallery">图库</a>
-<a href="#about">关于</a>
+
+<a href="#">
+首页
+</a>
+
+<a href="#">
+作品
+</a>
+
+<a href="admin.html">
+后台
+</a>
+
+
 </nav>
-
-
-<button id="themeBtn">
-🌙
-</button>
 
 
 </header>
 
 
 
-<section id="home" class="hero">
+
+<!-- 首页介绍 -->
 
 
-<div class="hero-text">
+<section class="hero">
+
 
 <h1>
-记录每一个瞬间
+
+探索光影
+
 </h1>
 
 
 <p>
-用极简设计展示你的照片与故事
-</p>
 
-
-<button>
-探索作品
-</button>
-
-</div>
-
-
-
-<img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455"
-class="hero-img">
-
-</section>
-
-
-
-
-
-<section id="gallery">
-
-
-<h2>
-精选图库
-</h2>
-
-
-<div class="gallery">
-
-
-<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-
-<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
-
-
-<img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e">
-
-
-<img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e">
-
-
-<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
-
-
-<img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
-
-
-</div>
-
-
-</section>
-
-
-
-
-<section id="upload">
-
-
-<h2>
-上传图片
-</h2>
-
-
-<input 
-type="file"
-id="uploadInput"
-accept="image/*">
-
-
-<div id="preview"></div>
-
-
-</section>
-
-
-
-
-<section id="about">
-
-<h2>
-关于 Studio
-</h2>
-
-
-<p>
-
-一个简洁、美观的个人图片展示网站。
+记录每一个值得收藏的瞬间
 
 </p>
 
 
 </section>
 
+
+
+
+
+<!-- 图片展示 -->
+
+
+<section class="gallery-section">
+
+
+<h2>
+
+精选作品
+
+</h2>
+
+
+
+<div id="gallery" class="gallery">
+
+
+<!-- Supabase图片自动加载 -->
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+<!-- 底部 -->
 
 
 <footer>
 
+
+<p>
+
 © 2026 by yy
+
+</p>
+
 
 </footer>
 
 
 
+
+
 <script src="script.js"></script>
 
+
 </body>
+
 
 </html>
