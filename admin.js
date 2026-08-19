@@ -1,6 +1,6 @@
 // ====== 请替换下面两个值 ======
-const SUPABASE_URL = "你的Supabase项目URL";
-const SUPABASE_KEY = "你的Publishable Key";
+const SUPABASE_URL = "https://mbigygpfxznlvcjfelvy.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hXo7cNYMBoPVxOJ_33gkkw_QjYt5e5u";
 // =================================
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
