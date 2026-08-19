@@ -1,74 +1,50 @@
-// 夜间模式
+const SUPABASE_URL = "https://mbigygpfxznlvcjfelvy.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hXo7cNYMBoPVxOJ_33gkkw_QjYt5e5u";
 
-const themeBtn =
-document.getElementById("themeBtn");
+const client = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+async function loadGallery(){
+
+    const {data,error}=await client
+    .from("gallery")
+    .select("*")
+    .order("created_at",{ascending:false});
 
 
-themeBtn.onclick=function(){
+    if(error){
+        console.log(error);
+        return;
+    }
 
-document.body.classList.toggle("dark");
+
+    const gallery=document.getElementById("gallery");
 
 
-if(
-document.body.classList.contains("dark")
-){
+    gallery.innerHTML="";
 
-themeBtn.innerHTML="☀️";
 
-}else{
+    data.forEach(item=>{
 
-themeBtn.innerHTML="🌙";
+        gallery.innerHTML+=`
+
+        <div class="card">
+
+        <img src="${item.image_url}">
+
+        <h3>${item.title}</h3>
+
+        <p>${item.description}</p>
+
+        </div>
+
+        `;
+
+    });
 
 }
 
-};
 
-
-
-
-
-// 图片上传预览
-
-
-const input =
-document.getElementById("uploadInput");
-
-
-const preview =
-document.getElementById("preview");
-
-
-
-input.onchange=function(e){
-
-
-const file=e.target.files[0];
-
-
-if(!file)return;
-
-
-
-const reader=new FileReader();
-
-
-
-reader.onload=function(){
-
-const img=document.createElement("img");
-
-
-img.src=reader.result;
-
-
-preview.appendChild(img);
-
-
-};
-
-
-
-reader.readAsDataURL(file);
-
-
-};
+loadGallery();
