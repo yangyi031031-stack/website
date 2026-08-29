@@ -1,25 +1,23 @@
 # Apple Style Studio
 
-一个苹果风格的响应式图文介绍网站，支持浏览器内在线编辑。
+一个苹果风格的响应式图文介绍网站，使用 Supabase 管理图片和首页文字。
 
 ## 功能
 
 - 苹果风格极简 UI
 - 手机 / iPad / PC 自适应
-- 夜间模式
-- 文字直接编辑
-- 图片在线替换
-- localStorage 本地保存
-- 无需后端即可运行
+- Supabase Auth 管理后台登录
+- Supabase Storage 上传图片
+- Supabase PostgreSQL 保存图片信息和首页文字
 
 ## 使用
 
-直接打开 `index.html` 即可。
+直接打开 `index.html` 即可浏览首页。
 
-点击右上角「编辑页面」：
-1. 点击文字直接修改
-2. 点击图片上的「更换图片」上传本地图片
-3. 点击「保存修改」
+进入 `admin.html`：
+1. 使用 Supabase Auth 中的管理员账号登录
+2. 上传图片并填写标题、描述
+3. 修改首页标题和介绍文字
 
 ## 部署
 
@@ -27,9 +25,9 @@
 
 ### 注意
 
-当前版本的图片和文字修改保存在浏览器 localStorage 中，只对当前浏览器有效。
+当前版本依赖 Supabase 的公开 anon/publishable key。上线前需要配置 Row Level Security，确保只有登录管理员能写入、更新和删除数据。
 
-如果要实现「所有网站用户都能看到修改后的内容」，需要增加后端数据库和图片存储，例如：
+建议的数据表：
 
-- Cloudflare Workers + D1 + R2
-- Supabase Auth + PostgreSQL + Storage
+- `gallery`: `id`, `title`, `description`, `image_url`, `path`, `created_at`
+- `site_content`: `section`, `title`, `content`
