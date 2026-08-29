@@ -5,7 +5,9 @@
 ## 当前架构
 
 - `index.html`：正式首页，单文件页面，内置响应式样式和交互逻辑。
-- `admin.html`：隐藏后台入口，用于登录后编辑首页内容。
+- `benefits.html`、`how-it-works.html`、`pricing.html`、`faq.html`：四个正式响应式子网页。
+- `subpage.css`、`subpage.js`：子网页共用样式、移动端菜单与 Supabase 内容读取。
+- `admin.html`：隐藏后台入口，用于登录后编辑首页及四个子网页内容。
 - `admin.css`：后台双端响应式样式。
 - `admin.js`：后台登录、读取和保存 Supabase 内容。
 - Supabase 表：`site_content`，按 `section` 保存 Logo、标题、按钮、统计、SEO、视频等内容。
@@ -14,7 +16,8 @@
 
 - 首页文字从 Supabase 读取，不再使用 `localStorage`。
 - `?edit=1` 仍可作为临时编辑入口，但必须先登录 Supabase Auth，保存后所有访客可见。
-- 正式后台：`/admin.html`。
+- 正式后台：`/admin.html`，可统一编辑首页和四个子网页。
+- 首页导航已连接到真实子网页，不再使用占位锚点。
 - 按钮和导航链接可在后台配置真实目标，例如表单、微信二维码页、邮箱、预约链接、视频案例页。
 - 背景视频支持 Supabase 配置视频 URL 和 poster URL，并保留 CSS 渐变 fallback。
 - 已加入基础 SEO：`meta description`、Open Graph、Twitter Card、`theme-color`、canonical。
@@ -87,3 +90,12 @@ RLS 建议：
 ```text
 https://website-7yu.pages.dev/
 ```
+
+## 子网页
+
+- Benefits：`/benefits.html`
+- How It Works：`/how-it-works.html`
+- Pricing：`/pricing.html`
+- FAQs：`/faq.html`
+
+所有子网页共用一致的深色视觉系统，并针对桌面、平板和手机布局优化。子页默认文案可直接显示；管理员在 `/admin.html` 保存后，会写入现有 `site_content` 表并覆盖默认文案。
