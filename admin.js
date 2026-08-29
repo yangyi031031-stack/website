@@ -13,6 +13,48 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
+const IMAGE_BUCKET = "site-images";
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
+function byId(id){
+return document.getElementById(id);
+}
+
+function showError(error){
+alert(error.message || error);
+}
+
+function buildImageCard(item){
+const card = document.createElement("div");
+card.className = "card";
+
+const image = document.createElement("img");
+image.src = item.image_url || "";
+image.alt = item.title || "作品图片";
+image.loading = "lazy";
+
+const title = document.createElement("h3");
+title.textContent = item.title || "未命名作品";
+
+const description = document.createElement("p");
+description.textContent = item.description || "";
+
+const editButton = document.createElement("button");
+editButton.className = "edit";
+editButton.type = "button";
+editButton.textContent = "编辑";
+editButton.addEventListener("click",()=>edit(item.id));
+
+const deleteButton = document.createElement("button");
+deleteButton.className = "delete";
+deleteButton.type = "button";
+deleteButton.textContent = "删除";
+deleteButton.addEventListener("click",()=>del(item.id,item.path));
+
+card.append(image,title,description,editButton,deleteButton);
+return card;
+}
+
 
 
 
@@ -43,7 +85,7 @@ password
 
 if(error){
 
-alert(error.message);
+showError(error);
 
 return;
 
@@ -75,45 +117,70 @@ async function upload(){
 
 
 let file=
-document.getElementById("file")
+byId("file")
 .files[0];
 
 
 let title=
-document.getElementById("title")
+byId("title")
 .value;
 
 
 let desc=
-document.getElementById("desc")
+byId("desc")
 .value;
+
+if(!file){
+alert("请选择要上传的图片");
+return;
+}
+
+if(!file.type.startsWith("image/")){
+alert("只能上传图片文件");
+return;
+}
+
+if(file.size > MAX_IMAGE_SIZE){
+alert("图片不能超过 5MB");
+return;
+}
+
+if(!title.trim()){
+alert("请填写图片标题");
+return;
+}
 
 
 
 let name=
-Date.now()+"-"+file.name;
+`${Date.now()}-${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g,"_")}`;
 
 
 
-await db.storage
-.from("site-images")
+let {error:uploadError}=await db.storage
+.from(IMAGE_BUCKET)
 .upload(
 name,
 file
 );
+
+if(uploadError){
+showError(uploadError);
+return;
+}
 
 
 
 let url=
 
 db.storage
-.from("site-images")
+.from(IMAGE_BUCKET)
 .getPublicUrl(name)
 .data.publicUrl;
 
 
 
-await db.from("gallery")
+let {error:insertError}=await db.from("gallery")
 .insert({
 
 title:title,
@@ -126,10 +193,18 @@ path:name
 
 });
 
+if(insertError){
+showError(insertError);
+return;
+}
+
 
 
 alert("上传成功");
 
+byId("file").value="";
+byId("title").value="";
+byId("desc").value="";
 
 loadImages();
 
@@ -150,7 +225,7 @@ async function loadImages(){
 let {data}=
 
 await db.from("gallery")
-.select("*")
+.select("id,title,description,image_url,path")
 .order(
 "id",
 {
@@ -169,40 +244,7 @@ box.innerHTML="";
 
 
 data.forEach(item=>{
-
-
-box.innerHTML+=`
-
-<div class="card">
-
-
-<img src="${item.image_url}">
-
-
-<h3>${item.title}</h3>
-
-<p>${item.description}</p>
-
-
-<button class="edit"
-onclick="edit(${item.id})">
-
-编辑
-
-</button>
-
-
-<button class="delete"
-onclick="del(${item.id},'${item.path}')">
-
-删除
-
-</button>
-
-
-</div>
-
-`;
+box.appendChild(buildImageCard(item));
 
 });
 
@@ -220,19 +262,31 @@ onclick="del(${item.id},'${item.path}')">
 
 async function del(id,path){
 
+if(!confirm("确定删除这张作品吗？")){
+return;
+}
 
-await db.storage
-.from("site-images")
+let {error:storageError}=await db.storage
+.from(IMAGE_BUCKET)
 .remove([path]);
 
+if(storageError){
+showError(storageError);
+return;
+}
 
 
-await db.from("gallery")
+let {error:deleteError}=await db.from("gallery")
 .delete()
 .eq(
 "id",
 id
 );
+
+if(deleteError){
+showError(deleteError);
+return;
+}
 
 
 
@@ -259,9 +313,12 @@ prompt("输入新标题");
 let desc=
 prompt("输入新描述");
 
+if(title===null || desc===null){
+return;
+}
 
 
-await db.from("gallery")
+let {error}=await db.from("gallery")
 .update({
 
 title:title,
@@ -275,6 +332,10 @@ description:desc
 id
 );
 
+if(error){
+showError(error);
+return;
+}
 
 
 loadImages();
@@ -298,22 +359,22 @@ async function loadContent(){
 let {data}=
 
 await db.from("site_content")
-.select("*")
+.select("title,content")
 .eq(
 "section",
 "hero"
 )
-.single();
+.maybeSingle();
 
 
 
 if(data){
 
-heroTitle.value=
+byId("heroTitle").value=
 data.title;
 
 
-heroContent.value=
+byId("heroContent").value=
 data.content;
 
 }
@@ -327,23 +388,24 @@ data.content;
 async function saveContent(){
 
 
-await db.from("site_content")
-.update({
+let {error}=await db.from("site_content")
+.upsert({
+
+section:"hero",
 
 title:
-heroTitle.value,
+byId("heroTitle").value,
 
 
 content:
-heroContent.value
+byId("heroContent").value
 
-})
+},{onConflict:"section"});
 
-.eq(
-"section",
-"hero"
-);
-
+if(error){
+showError(error);
+return;
+}
 
 
 alert("保存成功");
