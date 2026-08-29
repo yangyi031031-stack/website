@@ -66,6 +66,13 @@ const DEFAULT_CONTENT = {
 };
 
 const sections = Object.keys(DEFAULT_CONTENT);
+const LEGACY_LINKS = {
+  "#benefits": "benefits.html",
+  "#how-it-works": "how-it-works.html",
+  "#faqs": "faq.html",
+  "#pricing": "pricing.html",
+  "#demo": "how-it-works.html"
+};
 const loginPanel = document.getElementById("loginPanel");
 const cmsPanel = document.getElementById("cmsPanel");
 const loginMessage = document.getElementById("loginMessage");
@@ -86,7 +93,7 @@ function mergeRows(rows = []) {
     if (!content[row.section]) return;
     content[row.section] = {
       title: row.title ?? content[row.section].title,
-      content: row.content ?? content[row.section].content
+      content: LEGACY_LINKS[row.content] ?? row.content ?? content[row.section].content
     };
   });
   return content;
