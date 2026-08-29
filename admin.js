@@ -16,13 +16,13 @@ const DEFAULT_CONTENT = {
   },
   logo: {title: "Vesper.ai", content: ""},
   badge: {title: "Operational AI Infrastructure", content: ""},
-  headline_pre: {title: "Build AI agents that", content: ""},
-  headline_em: {title: "actually work", content: ""},
-  headline_post: {title: "for your business.", content: ""},
-  headline_line2: {title: "Automate your operation layer.", content: ""},
+  headline_pre: {title: "Train", content: ""},
+  headline_em: {title: "AI agents", content: ""},
+  headline_post: {title: "on your", content: ""},
+  headline_line2: {title: "workflows in minutes.", content: ""},
   lede: {
-    title: "Deploy adaptive AI agents that learn your workflows, execute complex tasks, and scale across every team — without adding operational drag.",
-    content: ""
+    title: "Description",
+    content: "Deploy adaptive AI agents that learn, execute, and scale operational tasks across your business."
   },
   nav_benefits: {title: "Benefits", content: "#benefits"},
   nav_how: {title: "How It Works", content: "#how-it-works"},
@@ -30,9 +30,9 @@ const DEFAULT_CONTENT = {
   nav_pricing: {title: "Pricing", content: "#pricing"},
   cta_primary: {title: "Start for Free", content: "mailto:hello@example.com?subject=Start%20for%20Free"},
   cta_secondary: {title: "See it in action", content: "#demo"},
-  stat_1: {title: "500+ Workflows Automated", content: ""},
-  stat_2: {title: "99.9% Agent Uptime", content: ""},
-  stat_3: {title: "24/7 Adaptive Execution", content: ""}
+  stat_1: {title: "4.2M+ workflows automated", content: ""},
+  stat_2: {title: "92% reduction in manual operations", content: ""},
+  stat_3: {title: "180+ operational teams onboarded", content: ""}
 };
 
 const sections = Object.keys(DEFAULT_CONTENT);
