@@ -9,15 +9,16 @@
 - Supabase Auth 管理后台登录
 - Supabase Storage 上传图片
 - Supabase PostgreSQL 保存图片信息和首页文字
+- 后台编辑网站名称、网页描述、首页文案、作品区标题和页脚
 
 ## 使用
 
 直接打开 `index.html` 即可浏览首页。
 
-进入 `admin.html`：
+后台地址不在首页显示，直接访问 `admin.html`：
 1. 使用 Supabase Auth 中的管理员账号登录
 2. 上传图片并填写标题、描述
-3. 修改首页标题和介绍文字
+3. 修改网页文字内容
 
 ## 部署
 
