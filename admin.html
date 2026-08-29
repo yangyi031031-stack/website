@@ -1,152 +1,173 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<title>
-后台
-</title>
-
-
-<link rel="stylesheet" href="admin.css">
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Vesper.ai 后台</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
-
 <body>
+  <main class="admin-shell">
+    <section class="hero-card">
+      <p class="eyebrow">Private Admin</p>
+      <h1>Vesper.ai 内容后台</h1>
+      <p>这里保存的是线上首页内容。修改并保存后，普通访客刷新页面即可看到 Supabase 中的新文案、按钮链接、视频和 SEO 信息。</p>
+    </section>
 
+    <section id="loginPanel" class="panel auth-panel">
+      <h2>管理员登录</h2>
+      <p class="muted">请使用 Supabase Auth 中已创建的管理员邮箱和密码。</p>
+      <label for="email">邮箱</label>
+      <input id="email" type="email" autocomplete="email" placeholder="admin@example.com">
+      <label for="password">密码</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="请输入密码">
+      <button id="loginButton" type="button">登录后台</button>
+      <p id="loginMessage" class="message" role="status"></p>
+    </section>
 
-<div class="box">
+    <section id="cmsPanel" class="panel cms-panel" hidden>
+      <div class="toolbar">
+        <div>
+          <p class="eyebrow">Published Content</p>
+          <h2>首页内容配置</h2>
+        </div>
+        <div class="toolbar-actions">
+          <a class="ghost-link" href="./" target="_blank" rel="noreferrer">打开首页</a>
+          <button id="logoutButton" class="secondary" type="button">退出</button>
+        </div>
+      </div>
 
+      <form id="contentForm">
+        <fieldset>
+          <legend>SEO 与分享</legend>
+          <label for="seoTitle">网页标题</label>
+          <input id="seoTitle" data-section="seo" data-field="title" placeholder="Vesper.ai — Operational AI Infrastructure">
+          <label for="seoDescription">网页描述</label>
+          <textarea id="seoDescription" data-section="seo" data-field="content" placeholder="用于 Google、社交分享和浏览器摘要"></textarea>
+          <label for="canonicalUrl">Canonical URL</label>
+          <input id="canonicalUrl" data-section="canonical" data-field="content" placeholder="https://website-7yu.pages.dev/">
+          <label for="ogImageUrl">分享图 URL</label>
+          <input id="ogImageUrl" data-section="og_image" data-field="content" placeholder="https://.../share-image.jpg">
+        </fieldset>
 
-<h1>
-后台
-</h1>
+        <fieldset>
+          <legend>首屏视频</legend>
+          <label for="videoUrl">背景视频 URL</label>
+          <input id="videoUrl" data-section="video" data-field="title" placeholder="https://.../video.mp4">
+          <label for="posterUrl">视频封面 poster URL</label>
+          <input id="posterUrl" data-section="video" data-field="content" placeholder="https://.../poster.jpg">
+          <p class="hint">如果视频加载慢，首页会先显示 CSS 渐变背景；填写 poster 后会进一步减少黑屏感。</p>
+        </fieldset>
 
+        <fieldset>
+          <legend>品牌与导航</legend>
+          <label for="logoText">Logo 文本</label>
+          <input id="logoText" data-section="logo" data-field="title" placeholder="Vesper.ai">
 
-<div id="login">
+          <div class="grid two">
+            <div>
+              <label for="navBenefitsLabel">Benefits 文案</label>
+              <input id="navBenefitsLabel" data-section="nav_benefits" data-field="title" placeholder="Benefits">
+            </div>
+            <div>
+              <label for="navBenefitsUrl">Benefits 链接</label>
+              <input id="navBenefitsUrl" data-section="nav_benefits" data-field="content" placeholder="#benefits 或 https://...">
+            </div>
+            <div>
+              <label for="navHowLabel">How It Works 文案</label>
+              <input id="navHowLabel" data-section="nav_how" data-field="title" placeholder="How It Works">
+            </div>
+            <div>
+              <label for="navHowUrl">How It Works 链接</label>
+              <input id="navHowUrl" data-section="nav_how" data-field="content" placeholder="#how-it-works 或 https://...">
+            </div>
+            <div>
+              <label for="navFaqsLabel">FAQs 文案</label>
+              <input id="navFaqsLabel" data-section="nav_faqs" data-field="title" placeholder="FAQs">
+            </div>
+            <div>
+              <label for="navFaqsUrl">FAQs 链接</label>
+              <input id="navFaqsUrl" data-section="nav_faqs" data-field="content" placeholder="#faqs 或 https://...">
+            </div>
+            <div>
+              <label for="navPricingLabel">Pricing 文案</label>
+              <input id="navPricingLabel" data-section="nav_pricing" data-field="title" placeholder="Pricing">
+            </div>
+            <div>
+              <label for="navPricingUrl">Pricing 链接</label>
+              <input id="navPricingUrl" data-section="nav_pricing" data-field="content" placeholder="#pricing 或 https://...">
+            </div>
+          </div>
+        </fieldset>
 
+        <fieldset>
+          <legend>首屏主文案</legend>
+          <label for="badgeText">徽章文字</label>
+          <input id="badgeText" data-section="badge" data-field="title" placeholder="Operational AI Infrastructure">
+          <div class="grid two">
+            <div>
+              <label for="headlinePre">标题前段</label>
+              <input id="headlinePre" data-section="headline_pre" data-field="title" placeholder="Build AI agents that">
+            </div>
+            <div>
+              <label for="headlineEm">高亮词</label>
+              <input id="headlineEm" data-section="headline_em" data-field="title" placeholder="actually work">
+            </div>
+            <div>
+              <label for="headlinePost">标题后段</label>
+              <input id="headlinePost" data-section="headline_post" data-field="title" placeholder="for your business.">
+            </div>
+            <div>
+              <label for="headlineLine2">第二行补充</label>
+              <input id="headlineLine2" data-section="headline_line2" data-field="title" placeholder="Automate your operation layer.">
+            </div>
+          </div>
+          <label for="ledeText">简介</label>
+          <textarea id="ledeText" data-section="lede" data-field="title" placeholder="面向访客的简短介绍"></textarea>
+        </fieldset>
 
-<input id="email"
-placeholder="管理员邮箱">
+        <fieldset>
+          <legend>CTA 按钮真实用途</legend>
+          <div class="grid two">
+            <div>
+              <label for="primaryLabel">主按钮文案</label>
+              <input id="primaryLabel" data-section="cta_primary" data-field="title" placeholder="Start for Free">
+            </div>
+            <div>
+              <label for="primaryUrl">主按钮链接</label>
+              <input id="primaryUrl" data-section="cta_primary" data-field="content" placeholder="mailto: / 微信二维码页 / 表单 / 预约链接">
+            </div>
+            <div>
+              <label for="secondaryLabel">副按钮文案</label>
+              <input id="secondaryLabel" data-section="cta_secondary" data-field="title" placeholder="See it in action">
+            </div>
+            <div>
+              <label for="secondaryUrl">副按钮链接</label>
+              <input id="secondaryUrl" data-section="cta_secondary" data-field="content" placeholder="演示视频或作品案例链接">
+            </div>
+          </div>
+        </fieldset>
 
+        <fieldset>
+          <legend>底部统计</legend>
+          <label for="stat1">统计 1</label>
+          <input id="stat1" data-section="stat_1" data-field="title" placeholder="500+ Workflows Automated">
+          <label for="stat2">统计 2</label>
+          <input id="stat2" data-section="stat_2" data-field="title" placeholder="99.9% Agent Uptime">
+          <label for="stat3">统计 3</label>
+          <input id="stat3" data-section="stat_3" data-field="title" placeholder="24/7 Adaptive Execution">
+        </fieldset>
 
-<input id="password"
-type="password"
-placeholder="密码">
+        <div class="sticky-save">
+          <p id="saveMessage" class="message" role="status"></p>
+          <button id="saveButton" type="submit">保存到 Supabase</button>
+        </div>
+      </form>
+    </section>
+  </main>
 
-
-<button onclick="login()">
-登录
-</button>
-
-
-</div>
-
-
-
-<div id="cms"
-style="display:none;">
-
-
-<h2>
-上传作品
-</h2>
-
-
-<input id="file"
-type="file">
-
-
-<input id="title"
-placeholder="图片标题">
-
-
-<textarea id="desc"
-placeholder="图片描述">
-</textarea>
-
-
-<button onclick="upload()">
-上传
-</button>
-
-
-
-<hr>
-
-
-
-<h2>
-作品管理
-</h2>
-
-
-<div id="list">
-
-</div>
-
-
-
-<hr>
-
-
-<h2>
-网页内容设置
-</h2>
-
-<label for="siteTitle">
-网站名称
-</label>
-
-<input id="siteTitle"
-placeholder="顶部网站名称">
-
-<textarea id="siteDescription"
-placeholder="网页描述，用于浏览器和搜索引擎">
-</textarea>
-
-
-<input id="heroTitle"
-placeholder="首页标题">
-
-
-<textarea id="heroContent"
-placeholder="首页介绍">
-</textarea>
-
-<input id="galleryTitle"
-placeholder="作品区标题">
-
-<textarea id="footerContent"
-placeholder="页脚文字">
-</textarea>
-
-
-<button onclick="saveContent()">
-保存网页内容
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-<script src="admin.js"></script>
-
+  <script src="admin.js"></script>
 </body>
-
-
 </html>
