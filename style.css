@@ -175,15 +175,42 @@ column-gap:20px;
 
 }
 
+.card{
+
+break-inside:avoid;
+
+margin-bottom:24px;
+
+background:white;
+
+border-radius:20px;
+
+overflow:hidden;
+
+box-shadow:0 8px 30px rgba(0,0,0,.08);
+
+}
+
+.card h3,
+.card p{
+
+padding:0 16px;
+
+}
+
+.card p{
+
+padding-bottom:16px;
+
+}
+
 
 
 .gallery img{
 
 width:100%;
 
-margin-bottom:20px;
-
-border-radius:20px;
+display:block;
 
 }
 
