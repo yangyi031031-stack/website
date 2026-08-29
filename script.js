@@ -8,9 +8,30 @@ const client = supabase.createClient(
 
 function setText(selector, value){
     const element = document.querySelector(selector);
-    if(element && value){
+    if(element && value !== undefined && value !== null){
         element.textContent = value;
     }
+}
+
+function applyContent(rows){
+    const content = Object.fromEntries(
+        rows.map(item => [item.section, item])
+    );
+
+    if(content.site?.title){
+        document.title = content.site.title;
+    }
+
+    const description = document.querySelector('meta[name="description"]');
+    if(description && content.site?.content){
+        description.setAttribute("content", content.site.content);
+    }
+
+    setText(".logo", content.site?.title);
+    setText(".hero h1", content.hero?.title);
+    setText(".hero p", content.hero?.content);
+    setText(".gallery-section h2", content.gallery?.title);
+    setText("footer p", content.footer?.content);
 }
 
 function createCard(item){
@@ -35,9 +56,8 @@ function createCard(item){
 async function loadContent(){
     const {data,error}=await client
     .from("site_content")
-    .select("title,content")
-    .eq("section","hero")
-    .maybeSingle();
+    .select("section,title,content")
+    .in("section",["site","hero","gallery","footer"]);
 
     if(error){
         console.error(error);
@@ -45,8 +65,7 @@ async function loadContent(){
     }
 
     if(data){
-        setText(".hero h1", data.title);
-        setText(".hero p", data.content);
+        applyContent(data);
     }
 }
 
