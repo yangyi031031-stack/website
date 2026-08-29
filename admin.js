@@ -15,6 +15,12 @@ SUPABASE_KEY
 
 const IMAGE_BUCKET = "site-images";
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const CONTENT_DEFAULTS = {
+site:{title:"Yisauce",content:"Apple Studio 图文展示网站"},
+hero:{title:"cat",content:"moment"},
+gallery:{title:"精选照片",content:""},
+footer:{title:"",content:"© 2026 by yy"}
+};
 
 function byId(id){
 return document.getElementById(id);
@@ -352,6 +358,11 @@ loadImages();
 
 // 网站文字
 
+function contentMap(rows){
+return Object.fromEntries(
+rows.map(item=>[item.section,item])
+);
+}
 
 async function loadContent(){
 
@@ -359,25 +370,36 @@ async function loadContent(){
 let {data}=
 
 await db.from("site_content")
-.select("title,content")
-.eq(
+.select("section,title,content")
+.in(
 "section",
-"hero"
-)
-.maybeSingle();
+Object.keys(CONTENT_DEFAULTS)
+);
 
 
 
-if(data){
+let content={
+...CONTENT_DEFAULTS,
+...contentMap(data || [])
+};
+
+byId("siteTitle").value=
+content.site.title;
+
+byId("siteDescription").value=
+content.site.content;
 
 byId("heroTitle").value=
-data.title;
-
+content.hero.title;
 
 byId("heroContent").value=
-data.content;
+content.hero.content;
 
-}
+byId("galleryTitle").value=
+content.gallery.title;
+
+byId("footerContent").value=
+content.footer.content;
 
 
 }
@@ -389,18 +411,28 @@ async function saveContent(){
 
 
 let {error}=await db.from("site_content")
-.upsert({
-
+.upsert([
+{
+section:"site",
+title:byId("siteTitle").value,
+content:byId("siteDescription").value
+},
+{
 section:"hero",
-
-title:
-byId("heroTitle").value,
-
-
-content:
-byId("heroContent").value
-
-},{onConflict:"section"});
+title:byId("heroTitle").value,
+content:byId("heroContent").value
+},
+{
+section:"gallery",
+title:byId("galleryTitle").value,
+content:""
+},
+{
+section:"footer",
+title:"",
+content:byId("footerContent").value
+}
+],{onConflict:"section"});
 
 if(error){
 showError(error);
