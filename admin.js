@@ -1,446 +1,162 @@
-const SUPABASE_URL =
-"https://mbigygpfxznlvcjfelvy.supabase.co";
+const SUPABASE_URL = "https://mbigygpfxznlvcjfelvy.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hXo7cNYMBoPVxOJ_33gkkw_QjYt5e5u";
 
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const SUPABASE_KEY =
-"sb_publishable_hXo7cNYMBoPVxOJ_33gkkw_QjYt5e5u";
-
-
-
-const db =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
-const IMAGE_BUCKET = "site-images";
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-const CONTENT_DEFAULTS = {
-site:{title:"Yisauce",content:"Apple Studio 图文展示网站"},
-hero:{title:"cat",content:"moment"},
-gallery:{title:"精选照片",content:""},
-footer:{title:"",content:"© 2026 by yy"}
+const DEFAULT_CONTENT = {
+  seo: {
+    title: "Vesper.ai — Operational AI Infrastructure",
+    content: "Deploy adaptive AI agents that learn, execute, and scale operational tasks across your business."
+  },
+  canonical: {title: "Canonical URL", content: "https://website-7yu.pages.dev/"},
+  og_image: {title: "Open Graph Image", content: ""},
+  video: {
+    title: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4",
+    content: ""
+  },
+  logo: {title: "Vesper.ai", content: ""},
+  badge: {title: "Operational AI Infrastructure", content: ""},
+  headline_pre: {title: "Build AI agents that", content: ""},
+  headline_em: {title: "actually work", content: ""},
+  headline_post: {title: "for your business.", content: ""},
+  headline_line2: {title: "Automate your operation layer.", content: ""},
+  lede: {
+    title: "Deploy adaptive AI agents that learn your workflows, execute complex tasks, and scale across every team — without adding operational drag.",
+    content: ""
+  },
+  nav_benefits: {title: "Benefits", content: "#benefits"},
+  nav_how: {title: "How It Works", content: "#how-it-works"},
+  nav_faqs: {title: "FAQs", content: "#faqs"},
+  nav_pricing: {title: "Pricing", content: "#pricing"},
+  cta_primary: {title: "Start for Free", content: "mailto:hello@example.com?subject=Start%20for%20Free"},
+  cta_secondary: {title: "See it in action", content: "#demo"},
+  stat_1: {title: "500+ Workflows Automated", content: ""},
+  stat_2: {title: "99.9% Agent Uptime", content: ""},
+  stat_3: {title: "24/7 Adaptive Execution", content: ""}
 };
 
-function byId(id){
-return document.getElementById(id);
+const sections = Object.keys(DEFAULT_CONTENT);
+const loginPanel = document.getElementById("loginPanel");
+const cmsPanel = document.getElementById("cmsPanel");
+const loginMessage = document.getElementById("loginMessage");
+const saveMessage = document.getElementById("saveMessage");
+
+function setMessage(node, text, isError = false) {
+  node.textContent = text;
+  node.classList.toggle("error", isError);
 }
 
-function showError(error){
-alert(error.message || error);
+function formControls() {
+  return Array.from(document.querySelectorAll("[data-section][data-field]"));
 }
 
-function buildImageCard(item){
-const card = document.createElement("div");
-card.className = "card";
-
-const image = document.createElement("img");
-image.src = item.image_url || "";
-image.alt = item.title || "作品图片";
-image.loading = "lazy";
-
-const title = document.createElement("h3");
-title.textContent = item.title || "未命名作品";
-
-const description = document.createElement("p");
-description.textContent = item.description || "";
-
-const editButton = document.createElement("button");
-editButton.className = "edit";
-editButton.type = "button";
-editButton.textContent = "编辑";
-editButton.addEventListener("click",()=>edit(item.id));
-
-const deleteButton = document.createElement("button");
-deleteButton.className = "delete";
-deleteButton.type = "button";
-deleteButton.textContent = "删除";
-deleteButton.addEventListener("click",()=>del(item.id,item.path));
-
-card.append(image,title,description,editButton,deleteButton);
-return card;
+function mergeRows(rows = []) {
+  const content = structuredClone(DEFAULT_CONTENT);
+  rows.forEach((row) => {
+    if (!content[row.section]) return;
+    content[row.section] = {
+      title: row.title ?? content[row.section].title,
+      content: row.content ?? content[row.section].content
+    };
+  });
+  return content;
 }
 
+function fillForm(content) {
+  formControls().forEach((input) => {
+    const section = input.dataset.section;
+    const field = input.dataset.field;
+    input.value = content[section]?.[field] ?? "";
+  });
+}
 
+function collectRows() {
+  const draft = structuredClone(DEFAULT_CONTENT);
+  formControls().forEach((input) => {
+    const section = input.dataset.section;
+    const field = input.dataset.field;
+    draft[section][field] = input.value.trim();
+  });
+  return Object.entries(draft).map(([section, value]) => ({
+    section,
+    title: value.title,
+    content: value.content
+  }));
+}
 
+async function showCms() {
+  loginPanel.hidden = true;
+  cmsPanel.hidden = false;
+  await loadContent();
+}
 
-// 登录
+async function showLogin() {
+  loginPanel.hidden = false;
+  cmsPanel.hidden = true;
+}
 
-async function login(){
+async function login() {
+  setMessage(loginMessage, "正在登录...");
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
+  const {error} = await db.auth.signInWithPassword({email, password});
+  if (error) {
+    setMessage(loginMessage, error.message || "登录失败", true);
+    return;
+  }
 
-let email=
-document.getElementById("email").value;
+  setMessage(loginMessage, "登录成功");
+  await showCms();
+}
 
+async function logout() {
+  await db.auth.signOut();
+  setMessage(saveMessage, "");
+  await showLogin();
+}
 
-let password=
-document.getElementById("password").value;
+async function loadContent() {
+  setMessage(saveMessage, "正在从 Supabase 读取内容...");
+  const {data, error} = await db
+    .from("site_content")
+    .select("section,title,content")
+    .in("section", sections);
 
+  if (error) {
+    fillForm(DEFAULT_CONTENT);
+    setMessage(saveMessage, `读取失败：${error.message}`, true);
+    return;
+  }
 
+  fillForm(mergeRows(data));
+  setMessage(saveMessage, "内容已加载。修改后点击保存即可发布。");
+}
 
-let {error}=
+async function saveContent(event) {
+  event.preventDefault();
+  setMessage(saveMessage, "正在保存到 Supabase...");
 
-await db.auth.signInWithPassword({
+  const {error} = await db
+    .from("site_content")
+    .upsert(collectRows(), {onConflict: "section"});
 
-email,
+  if (error) {
+    setMessage(saveMessage, `保存失败：${error.message}`, true);
+    return;
+  }
 
-password
+  setMessage(saveMessage, "保存成功。刷新首页即可看到最新内容。");
+}
 
+document.getElementById("loginButton").addEventListener("click", login);
+document.getElementById("logoutButton").addEventListener("click", logout);
+document.getElementById("contentForm").addEventListener("submit", saveContent);
+
+db.auth.getSession().then(({data}) => {
+  if (data.session) {
+    showCms();
+  } else {
+    showLogin();
+  }
 });
-
-
-if(error){
-
-showError(error);
-
-return;
-
-}
-
-
-document.getElementById("login")
-.style.display="none";
-
-
-document.getElementById("cms")
-.style.display="block";
-
-
-loadImages();
-
-loadContent();
-
-}
-
-
-
-
-
-// 上传图片
-
-
-async function upload(){
-
-
-let file=
-byId("file")
-.files[0];
-
-
-let title=
-byId("title")
-.value;
-
-
-let desc=
-byId("desc")
-.value;
-
-if(!file){
-alert("请选择要上传的图片");
-return;
-}
-
-if(!file.type.startsWith("image/")){
-alert("只能上传图片文件");
-return;
-}
-
-if(file.size > MAX_IMAGE_SIZE){
-alert("图片不能超过 5MB");
-return;
-}
-
-if(!title.trim()){
-alert("请填写图片标题");
-return;
-}
-
-
-
-let name=
-`${Date.now()}-${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g,"_")}`;
-
-
-
-let {error:uploadError}=await db.storage
-.from(IMAGE_BUCKET)
-.upload(
-name,
-file
-);
-
-if(uploadError){
-showError(uploadError);
-return;
-}
-
-
-
-let url=
-
-db.storage
-.from(IMAGE_BUCKET)
-.getPublicUrl(name)
-.data.publicUrl;
-
-
-
-let {error:insertError}=await db.from("gallery")
-.insert({
-
-title:title,
-
-description:desc,
-
-image_url:url,
-
-path:name
-
-});
-
-if(insertError){
-showError(insertError);
-return;
-}
-
-
-
-alert("上传成功");
-
-byId("file").value="";
-byId("title").value="";
-byId("desc").value="";
-
-loadImages();
-
-
-}
-
-
-
-
-
-
-// 加载图片
-
-
-async function loadImages(){
-
-
-let {data}=
-
-await db.from("gallery")
-.select("id,title,description,image_url,path")
-.order(
-"id",
-{
-ascending:false
-}
-);
-
-
-
-let box=
-document.getElementById("list");
-
-
-box.innerHTML="";
-
-
-
-data.forEach(item=>{
-box.appendChild(buildImageCard(item));
-
-});
-
-
-}
-
-
-
-
-
-
-
-// 删除
-
-
-async function del(id,path){
-
-if(!confirm("确定删除这张作品吗？")){
-return;
-}
-
-let {error:storageError}=await db.storage
-.from(IMAGE_BUCKET)
-.remove([path]);
-
-if(storageError){
-showError(storageError);
-return;
-}
-
-
-let {error:deleteError}=await db.from("gallery")
-.delete()
-.eq(
-"id",
-id
-);
-
-if(deleteError){
-showError(deleteError);
-return;
-}
-
-
-
-loadImages();
-
-
-}
-
-
-
-
-
-
-// 编辑
-
-
-async function edit(id){
-
-
-let title=
-prompt("输入新标题");
-
-
-let desc=
-prompt("输入新描述");
-
-if(title===null || desc===null){
-return;
-}
-
-
-let {error}=await db.from("gallery")
-.update({
-
-title:title,
-
-description:desc
-
-})
-
-.eq(
-"id",
-id
-);
-
-if(error){
-showError(error);
-return;
-}
-
-
-loadImages();
-
-
-}
-
-
-
-
-
-
-
-
-// 网站文字
-
-function contentMap(rows){
-return Object.fromEntries(
-rows.map(item=>[item.section,item])
-);
-}
-
-async function loadContent(){
-
-
-let {data}=
-
-await db.from("site_content")
-.select("section,title,content")
-.in(
-"section",
-Object.keys(CONTENT_DEFAULTS)
-);
-
-
-
-let content={
-...CONTENT_DEFAULTS,
-...contentMap(data || [])
-};
-
-byId("siteTitle").value=
-content.site.title;
-
-byId("siteDescription").value=
-content.site.content;
-
-byId("heroTitle").value=
-content.hero.title;
-
-byId("heroContent").value=
-content.hero.content;
-
-byId("galleryTitle").value=
-content.gallery.title;
-
-byId("footerContent").value=
-content.footer.content;
-
-
-}
-
-
-
-
-async function saveContent(){
-
-
-let {error}=await db.from("site_content")
-.upsert([
-{
-section:"site",
-title:byId("siteTitle").value,
-content:byId("siteDescription").value
-},
-{
-section:"hero",
-title:byId("heroTitle").value,
-content:byId("heroContent").value
-},
-{
-section:"gallery",
-title:byId("galleryTitle").value,
-content:""
-},
-{
-section:"footer",
-title:"",
-content:byId("footerContent").value
-}
-],{onConflict:"section"});
-
-if(error){
-showError(error);
-return;
-}
-
-
-alert("保存成功");
-
-
-}
