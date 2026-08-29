@@ -73,7 +73,7 @@
             </div>
             <div>
               <label for="navBenefitsUrl">Benefits 链接</label>
-              <input id="navBenefitsUrl" data-section="nav_benefits" data-field="content" placeholder="#benefits 或 https://...">
+              <input id="navBenefitsUrl" data-section="nav_benefits" data-field="content" placeholder="benefits.html">
             </div>
             <div>
               <label for="navHowLabel">How It Works 文案</label>
@@ -81,7 +81,7 @@
             </div>
             <div>
               <label for="navHowUrl">How It Works 链接</label>
-              <input id="navHowUrl" data-section="nav_how" data-field="content" placeholder="#how-it-works 或 https://...">
+              <input id="navHowUrl" data-section="nav_how" data-field="content" placeholder="how-it-works.html">
             </div>
             <div>
               <label for="navFaqsLabel">FAQs 文案</label>
@@ -89,7 +89,7 @@
             </div>
             <div>
               <label for="navFaqsUrl">FAQs 链接</label>
-              <input id="navFaqsUrl" data-section="nav_faqs" data-field="content" placeholder="#faqs 或 https://...">
+              <input id="navFaqsUrl" data-section="nav_faqs" data-field="content" placeholder="faq.html">
             </div>
             <div>
               <label for="navPricingLabel">Pricing 文案</label>
@@ -97,7 +97,7 @@
             </div>
             <div>
               <label for="navPricingUrl">Pricing 链接</label>
-              <input id="navPricingUrl" data-section="nav_pricing" data-field="content" placeholder="#pricing 或 https://...">
+              <input id="navPricingUrl" data-section="nav_pricing" data-field="content" placeholder="pricing.html">
             </div>
           </div>
         </fieldset>
@@ -158,6 +158,39 @@
           <input id="stat2" data-section="stat_2" data-field="title" placeholder="99.9% Agent Uptime">
           <label for="stat3">统计 3</label>
           <input id="stat3" data-section="stat_3" data-field="title" placeholder="24/7 Adaptive Execution">
+        </fieldset>
+
+
+        <fieldset>
+          <legend>子页：Benefits</legend>
+          <label>眉题</label><input data-section="benefits_kicker" data-field="title">
+          <label>主标题</label><input data-section="benefits_title" data-field="title">
+          <label>简介</label><textarea data-section="benefits_intro" data-field="content"></textarea>
+          <div class="grid two"><div><label>优势 1 标题</label><input data-section="benefits_1" data-field="title"><label>优势 1 说明</label><textarea data-section="benefits_1" data-field="content"></textarea></div><div><label>优势 2 标题</label><input data-section="benefits_2" data-field="title"><label>优势 2 说明</label><textarea data-section="benefits_2" data-field="content"></textarea></div><div><label>优势 3 标题</label><input data-section="benefits_3" data-field="title"><label>优势 3 说明</label><textarea data-section="benefits_3" data-field="content"></textarea></div></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>子页：How It Works</legend>
+          <label>眉题</label><input data-section="how_kicker" data-field="title">
+          <label>主标题</label><input data-section="how_title" data-field="title">
+          <label>简介</label><textarea data-section="how_intro" data-field="content"></textarea>
+          <div class="grid two"><div><label>步骤 1 标题</label><input data-section="how_1" data-field="title"><label>步骤 1 说明</label><textarea data-section="how_1" data-field="content"></textarea></div><div><label>步骤 2 标题</label><input data-section="how_2" data-field="title"><label>步骤 2 说明</label><textarea data-section="how_2" data-field="content"></textarea></div><div><label>步骤 3 标题</label><input data-section="how_3" data-field="title"><label>步骤 3 说明</label><textarea data-section="how_3" data-field="content"></textarea></div><div><label>步骤 4 标题</label><input data-section="how_4" data-field="title"><label>步骤 4 说明</label><textarea data-section="how_4" data-field="content"></textarea></div></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>子页：Pricing</legend>
+          <label>眉题</label><input data-section="pricing_kicker" data-field="title">
+          <label>主标题</label><input data-section="pricing_title" data-field="title">
+          <label>简介</label><textarea data-section="pricing_intro" data-field="content"></textarea>
+          <div class="grid two"><div><label>方案 1 名称</label><input data-section="pricing_1" data-field="title"><label>方案 1 价格</label><input data-section="pricing_1_price" data-field="title"><label>方案 1 内容（每行一项）</label><textarea data-section="pricing_1" data-field="content"></textarea></div><div><label>方案 2 名称</label><input data-section="pricing_2" data-field="title"><label>方案 2 价格</label><input data-section="pricing_2_price" data-field="title"><label>方案 2 内容（每行一项）</label><textarea data-section="pricing_2" data-field="content"></textarea></div><div><label>方案 3 名称</label><input data-section="pricing_3" data-field="title"><label>方案 3 价格</label><input data-section="pricing_3_price" data-field="title"><label>方案 3 内容（每行一项）</label><textarea data-section="pricing_3" data-field="content"></textarea></div></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>子页：FAQs</legend>
+          <label>眉题</label><input data-section="faq_kicker" data-field="title">
+          <label>主标题</label><input data-section="faq_title" data-field="title">
+          <label>简介</label><textarea data-section="faq_intro" data-field="content"></textarea>
+          <div class="grid two"><div><label>问题 1</label><input data-section="faq_1" data-field="title"><label>答案 1</label><textarea data-section="faq_1" data-field="content"></textarea></div><div><label>问题 2</label><input data-section="faq_2" data-field="title"><label>答案 2</label><textarea data-section="faq_2" data-field="content"></textarea></div><div><label>问题 3</label><input data-section="faq_3" data-field="title"><label>答案 3</label><textarea data-section="faq_3" data-field="content"></textarea></div><div><label>问题 4</label><input data-section="faq_4" data-field="title"><label>答案 4</label><textarea data-section="faq_4" data-field="content"></textarea></div><div><label>问题 5</label><input data-section="faq_5" data-field="title"><label>答案 5</label><textarea data-section="faq_5" data-field="content"></textarea></div></div>
         </fieldset>
 
         <div class="sticky-save">
