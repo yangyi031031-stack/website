@@ -14,7 +14,7 @@ Arial;
 
 .box{
 
-max-width:500px;
+max-width:720px;
 
 margin:30px auto;
 
@@ -54,6 +54,16 @@ border-radius:15px;
 border:1px solid #ddd;
 
 font-size:16px;
+
+}
+
+label{
+
+display:block;
+
+margin-top:12px;
+
+font-weight:600;
 
 }
 
